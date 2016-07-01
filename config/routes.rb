@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 
   resources :dashboard
 
-  root to: 'dashboard#index'
+  root :to => "dashboard#index"
 end
