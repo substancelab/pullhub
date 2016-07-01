@@ -14,6 +14,8 @@ gem "turbolinks", "~> 5.x"
 gem "rails-controller-testing"
 gem "rspec-rails", "3.5.0.beta4"
 
+gem "slim-rails"
+
 group :development, :test do
   gem "byebug", :platform => :mri
 end
