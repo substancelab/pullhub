@@ -11,6 +11,9 @@ gem "coffee-rails", "~> 4.1.0"
 gem "jquery-rails"
 gem "turbolinks", "~> 5.x"
 
+gem "rails-controller-testing"
+gem "rspec-rails", "3.5.0.beta4"
+
 group :development, :test do
   gem "byebug", :platform => :mri
 end
