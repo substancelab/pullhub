@@ -16,6 +16,9 @@ gem "rspec-rails", "3.5.0.beta4"
 
 gem "slim-rails"
 
+gem "devise"
+
+
 group :development, :test do
   gem "byebug", :platform => :mri
 end
