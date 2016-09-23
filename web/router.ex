@@ -23,6 +23,7 @@ defmodule Pullhub.Router do
     get "/auth/:provider/callback", AuthController, :callback
     post "/auth/:provider/callback", AuthController, :callback
     delete "/logout", AuthController, :delete
+    resources "/repositories", RepositoryController
   end
 
   # Other scopes may use custom stacks.

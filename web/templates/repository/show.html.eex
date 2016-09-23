@@ -1,0 +1,23 @@
+<h2>Show repository</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @repository.name %>
+  </li>
+
+  <li>
+    <strong>User:</strong>
+    <%= @repository.user_id %>
+  </li>
+
+  <li>
+    <strong>Remote:</strong>
+    <%= @repository.remote_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: repository_path(@conn, :edit, @repository) %>
+<%= link "Back", to: repository_path(@conn, :index) %>
