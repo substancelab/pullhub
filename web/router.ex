@@ -17,6 +17,11 @@ defmodule Pullhub.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/", AuthController, :index
+    get "/auth/:provider", AuthController, :request
+    get "/auth/:provider/callback", AuthController, :callback
+    post "/auth/:provider/callback", AuthController, :callback
+    delete "/logout", AuthController, :delete
   end
 
   # Other scopes may use custom stacks.
