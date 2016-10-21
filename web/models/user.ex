@@ -21,16 +21,4 @@ defmodule Pullhub.User do
     |> cast(params, [:email, :github_token])
     |> validate_required([:email, :github_token])
   end
-
-  @doc """
-  Finds one user based on email. If none is found it is created and returned
-  """
-  def find_or_create(user) do
-    query = from u in Pullhub.User,
-            where: u.email == ^user.email
-    if !Repo.one(query)  do
-      Repo.insert(user)
-    end
-    Repo.one(query)
-  end
 end
