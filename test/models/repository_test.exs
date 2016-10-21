@@ -3,7 +3,7 @@ defmodule Pullhub.RepositoryTest do
 
   alias Pullhub.Repository
 
-  @valid_attrs %{name: "some content", remote_id: 42}
+  @valid_attrs %{name: "some content", remote_id: 42, owner: "me"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
@@ -15,4 +15,21 @@ defmodule Pullhub.RepositoryTest do
     changeset = Repository.changeset(%Repository{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "find_or_create creates new if does not exist" do
+    new_repo = %{remote_id: 11, name: "t", owner: "1"}
+
+    assert Pullhub.Repo.get_by(Repository, new_repo) == nil
+
+    Repository.find_or_create(new_repo)
+    assert Pullhub.Repo.get_by(Repository, new_repo)
+  end
+
+  test "find_or_create returns existing one" do
+    new_repo = %{remote_id: 11, name: "t", owner: "1"}
+    Repository.find_or_create(new_repo)
+    Repository.find_or_create(new_repo)
+    assert length(Pullhub.Repo.all(Repository)) == 1
+  end
+
 end
