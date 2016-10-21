@@ -1,6 +1,8 @@
 defmodule Pullhub.RepositoriesService do
   require Logger
 
+  alias Pullhub.Repo
+
   def user_repositories(nil) do
     nil
   end
@@ -15,7 +17,7 @@ defmodule Pullhub.RepositoriesService do
     Enum.map(repositories, fn(r) -> %{
       owner: r["owner"]["login"],
       name: r["name"],
-      id: r["id"]
+      remote_id: r["id"]
     } end)
   end
 end
