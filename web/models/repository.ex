@@ -3,6 +3,7 @@ defmodule Pullhub.Repository do
 
   schema "repositories" do
     field :name, :string
+    field :owner, :string
     field :remote_id, :integer
     belongs_to :user, Pullhub.User
 
