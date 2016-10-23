@@ -8,22 +8,26 @@ defmodule Pullhub.RepoFetcher do
   alias Pullhub.Repository
   alias Pullhub.RepositoriesService
 
-  def start_link do
-    GenServer.start_link(__MODULE__, %{})
+  def start_link(opts \\ []) do
+    {:ok, pid} = GenServer.start_link(__MODULE__, [], opts)
   end
 
-  def init(state) do
-    schedule_work()
-    {:ok, state}
+  def fetch(fetch_params) do
+    GenServer.cast(:repo_fetcher, {:fetch, fetch_params})
   end
 
-  def handle_info(:work, state) do
+  def handle_cast({:fetch, fetch_params}, state) do
+    {:noreply, fetch}
+  end
+
+  def init([]) do
+    {:ok, []}
+  end
+
+  def fetch do
     Repo.all(User)
     |> Enum.filter(fn(u) -> u.github_token != nil end)
     |> Enum.map(&fetch_and_update_repositories/1)
-
-    #schedule_work() # Reschedule once more
-    {:noreply, state}
   end
 
   def fetch_and_update_repositories(user) do
@@ -34,16 +38,11 @@ defmodule Pullhub.RepoFetcher do
   end
 
   def convert_repository_to_structs(repos, user) do
-    Enum.map(repos, fn(repo) -> %Repository{
+    Enum.map(repos, fn(repo) -> %{
       name: repo.name,
       owner: repo.owner,
       remote_id: repo.remote_id,
       user_id: user.id
     } end)
   end
-
-  defp schedule_work() do
-    Process.send_after(self(), :work, 0 * 1000) # In 30 seconds
-  end
-
 end
