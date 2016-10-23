@@ -24,6 +24,10 @@ defmodule Pullhub.RepositoryController do
     end
   end
 
+  def fetch_user_repos(conn, _params) do
+    Pullhub.RepoFetcher.fetch(%{})
+    redirect conn, to: "/repositories"
+  end
 
   def user_id(conn) do
     conn.assigns[:user].id
@@ -34,7 +38,8 @@ defmodule Pullhub.RepositoryController do
   end
 
   def all_repositories(conn) do
-    RepositoriesService.user_repositories(conn.assigns[:user])
+    Repo.all(Repository)
+    #RepositoriesService.user_repositories(conn.assigns[:user])
   end
 
   def delete_existing_user_repositories(conn) do
