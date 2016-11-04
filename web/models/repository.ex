@@ -7,6 +7,7 @@ defmodule Pullhub.Repository do
     field :name, :string
     field :owner, :string
     field :remote_id, :integer
+    field :enabled, :boolean
     belongs_to :user, Pullhub.User
 
     timestamps()
@@ -17,7 +18,7 @@ defmodule Pullhub.Repository do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :owner, :remote_id])
+    |> cast(params, [:name, :owner, :remote_id, :enabled])
     |> validate_required([:remote_id])
   end
 
