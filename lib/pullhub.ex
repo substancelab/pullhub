@@ -14,7 +14,8 @@ defmodule Pullhub do
       supervisor(Pullhub.Endpoint, []),
       # Start your own worker by calling: Pullhub.Worker.start_link(arg1, arg2, arg3)
       # worker(Pullhub.Worker, [arg1, arg2, arg3]),
-      worker(Pullhub.RepoFetcher, [[name: :repo_fetcher]])
+      worker(Pullhub.RepoFetcher, [[name: :repo_fetcher]]),
+      worker(Pullhub.PullRequestsFetcher, [[name: :pull_requests_fetcher]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
