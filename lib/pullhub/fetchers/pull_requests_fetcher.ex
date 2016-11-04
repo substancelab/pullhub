@@ -51,7 +51,7 @@ defmodule Pullhub.PullRequestsFetcher do
 
   def update_pull_requests(repositories, user, client) do
     Enum.map(repositories, fn(repo) ->
-      Tentacat.Pulls.list(repo.owner, repo.name, client)
+      Tentacat.Pulls.filter(repo.owner, repo.name, [state: "all"], client)
       |> Enum.map(&extract_pull_info/1)
       |> upsert_pulls(repo)
     end)
@@ -63,14 +63,10 @@ defmodule Pullhub.PullRequestsFetcher do
 
       pull = Map.put(pull, :repository_id, repo.id)
 
-      Logger.debug(inspect(pull))
-
       if !Repo.one(query) do
         Repo.insert(PullRequest.changeset(%PullRequest{}, pull))
-        Logger.debug("inserted #{inspect(pull)}")
       else
         Repo.update(PullRequest.changeset(Repo.one(query), pull))
-        Logger.debug("updated #{inspect(pull)}")
       end
     end)
   end
@@ -99,7 +95,6 @@ defmodule Pullhub.PullRequestsFetcher do
   end
 
   def handle_info(:fetch, state) do
-    Logger.debug("FETCH IT")
     state = fetch(%{})
     schedule_work()
     {:noreply, state}

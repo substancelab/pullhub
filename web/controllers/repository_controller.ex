@@ -6,7 +6,7 @@ defmodule Pullhub.RepositoryController do
   alias Pullhub.RepositoriesService
 
   def index(conn, _params) do
-    render(conn, "index.html", repositories: Repo.all(Repository), user_repos: user_repos(conn))
+    render(conn, "index.html", repositories: user_repos(conn))
   end
 
   def create(conn, %{"repositories" => %{"ids" => repository_ids}}) do
@@ -16,11 +16,11 @@ defmodule Pullhub.RepositoryController do
       {:ok, count} ->
         conn
         |> put_flash(:info, "Repositories saved.")
-        |> render("index.html", repositories: Repo.all(Repository), user_repos: user_repos(conn))
+        |> render("index.html", repositories: user_repos(conn), user_repos: user_repos(conn))
       {:error, changeset} ->
         conn
         |> put_flash(:error, "Repositories ERROR saving.")
-        |> render("index.html", repositories: Repo.all(Repository), user_repos: user_repos(conn))
+        |> render("index.html", repositories: user_repos(conn), user_repos: user_repos(conn))
     end
   end
 
