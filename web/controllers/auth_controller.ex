@@ -6,7 +6,7 @@ defmodule Pullhub.AuthController do
   alias Ueberauth.Strategy.Helpers
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    render(conn, "index.html", layout: {Pullhub.LayoutView, "auth_layout.html"})
   end
 
   def request(conn, _params) do

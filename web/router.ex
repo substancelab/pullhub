@@ -7,6 +7,9 @@ defmodule Pullhub.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :auth do
     plug Pullhub.Plugs.Authenticate
   end
 
@@ -15,15 +18,21 @@ defmodule Pullhub.Router do
   end
 
   scope "/", Pullhub do
-    pipe_through :browser # Use the default browser stack
-    get "/", AuthController, :index
-    get "/auth/:provider", AuthController, :request
-    get "/auth/:provider/callback", AuthController, :callback
-    post "/auth/:provider/callback", AuthController, :callback
+    pipe_through [:browser, :auth] # Use the default browser stack
+    get "/", PullRequestController, :index
     delete "/logout", AuthController, :delete
 
     post "/repositories/fetch_user_repos", RepositoryController, :fetch_user_repos
     resources "/repositories", RepositoryController
+    resources "/pull_requests", PullRequestController
+  end
+
+  scope "/", Pullhub do
+    pipe_through :browser
+    get "/auth", AuthController, :index
+    get "/auth/:provider", AuthController, :request
+    get "/auth/:provider/callback", AuthController, :callback
+    post "/auth/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.
