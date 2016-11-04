@@ -34,18 +34,23 @@ defmodule Pullhub.RepositoryController do
   end
 
   def user_repos(conn) do
-    user_repos = Repo.all(from( r in Repository, where: r.user_id == ^user_id(conn) ))
+    user_id(conn)
+    |> Repository.user_repositories
+    |> Repo.all
   end
 
   defp disable_all_user_repositories(conn) do
-    query = from(r in Repository, where: r.user_id == ^user_id(conn))
-    Repo.update_all(query, set: [enabled: false])
+    user_id(conn)
+    |> Repository.user_repositories
+    |> Repository.enabled_repositories
+    |> Repo.update_all(set: [enabled: false])
   end
 
   defp enable_user_repositories(conn, repository_ids) do
-    query = from(r in Repository, where: r.id in ^repository_ids)
-    Repo.update_all(query, set: [enabled: true])
+    repository_ids
+    |> Repository.find_by_ids
+    |> Repo.update_all(set: [enabled: true])
 
-    {:ok, Repo.aggregate(query, :count, :id)}
+    {:ok, Repo.aggregate(Repository.find_by_ids(repository_ids), :count, :id)}
   end
 end

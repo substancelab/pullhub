@@ -14,9 +14,25 @@ defmodule Pullhub.PullRequestController do
   end
 
   def user_repos(conn) do
-    fancy_query = from(p in PullRequest, where: p.state == "open")
-
-    user_repos = Repo.all(from( r in Repository, where: r.user_id == ^user_id(conn) and r.enabled == true, preload: [pull_requests: ^fancy_query, user: :repositories] ))
+    user_id(conn)
+    |> Repository.user_repositories
+    |> preload_pull_requests
+    |> preload_users
+    |> Repo.all
     |> Enum.filter(fn(repo) -> Enum.count(repo.pull_requests) > 0 end)
+  end
+
+  def preload_pull_requests(query) do
+    from r in query,
+        preload: [
+          pull_requests: ^Pullhub.PullRequest.open_pull_requests,
+        ]
+  end
+
+  def preload_users(query) do
+    from r in query,
+        preload: [
+          user: :repositories
+        ]
   end
 end
