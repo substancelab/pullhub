@@ -9,6 +9,7 @@ defmodule Pullhub.PullRequestsFetcher do
 
   alias Pullhub.Repo
   alias Pullhub.User
+  alias Pullhub.GithubApi
   alias Pullhub.Repository
   alias Pullhub.PullRequest
   alias Pullhub.RepositoriesService
@@ -39,19 +40,14 @@ defmodule Pullhub.PullRequestsFetcher do
   def fetch_and_update_pull_requests(user) do
     client = Tentacat.Client.new(%{access_token: user.github_token})
     user
-    |> enabled_repositories
+    |> Repository.enabled_repositories
+    |> Repo.all
     |> update_pull_requests(user, client)
-  end
-
-  def enabled_repositories(user) do
-    query = from( r in Repository,
-                  where: r.enabled == true and r.user_id == ^user.id)
-    Repo.all(query)
   end
 
   def update_pull_requests(repositories, user, client) do
     Enum.map(repositories, fn(repo) ->
-      Tentacat.Pulls.filter(repo.owner, repo.name, [state: "all"], client)
+      Pullhub.GithubApi.pull_requests(repo, user)
       |> Enum.map(&extract_pull_info/1)
       |> upsert_pulls(repo)
     end)

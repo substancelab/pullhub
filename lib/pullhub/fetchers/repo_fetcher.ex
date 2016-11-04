@@ -5,6 +5,7 @@ defmodule Pullhub.RepoFetcher do
 
   alias Pullhub.Repo
   alias Pullhub.User
+  alias Pullhub.GithubApi
   alias Pullhub.Repository
   alias Pullhub.RepositoriesService
 
@@ -32,17 +33,7 @@ defmodule Pullhub.RepoFetcher do
 
   def fetch_and_update_repositories(user) do
     user
-    |> RepositoriesService.user_repositories
-    |> convert_repository_to_structs(user)
+    |> GithubApi.user_repositories
     |> Enum.each(&Repository.find_or_create/1)
-  end
-
-  def convert_repository_to_structs(repos, user) do
-    Enum.map(repos, fn(repo) -> %{
-      name: repo.name,
-      owner: repo.owner,
-      remote_id: repo.remote_id,
-      user_id: user.id
-    } end)
   end
 end
