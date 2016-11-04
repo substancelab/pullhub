@@ -27,10 +27,6 @@ config :ueberauth, Ueberauth,
     github: { Ueberauth.Strategy.Github, [ default_scope: "user:email, repo" ] }
   ]
 
-config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: System.get_env("GITHUB_CLIENT_ID") || "adec11fb9e64770aeb67",
-  client_secret: System.get_env("GITHUB_CLIENT_SECRET") || "a7eed573d14ecf909e3cde6064e66d8e105fef1a"
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
