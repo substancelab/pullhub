@@ -21,6 +21,8 @@ defmodule Pullhub.Router do
     get "/auth/:provider/callback", AuthController, :callback
     post "/auth/:provider/callback", AuthController, :callback
     delete "/logout", AuthController, :delete
+
+    post "/repositories/fetch_user_repos", RepositoryController, :fetch_user_repos
     resources "/repositories", RepositoryController
   end
 
