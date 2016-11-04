@@ -27,7 +27,7 @@ defmodule Pullhub.Repository do
   """
   def find_or_create(repository) do
     query = from r in Pullhub.Repository,
-            where: r.remote_id == ^repository.remote_id
+            where: r.remote_id == ^repository.remote_id and r.user_id == ^repository.user_id
     if !Repo.one(query)  do
       Repo.insert(struct(Pullhub.Repository, repository))
     end

@@ -17,7 +17,7 @@
       <tr>
         <td><%= repository.owner %> / <%= repository.name %></td>
         <td>
-          <%= if user_has_repo_checked(@user_repos, repository) do %>
+          <%= if user_has_repo_checked(repository) do %>
             <input type="checkbox" name="repositories[ids][]" value="<%= repository.id %>" checked="checked"/>
           <%= else %>
             <input type="checkbox" name="repositories[ids][]" value="<%= repository.id %>"/>
