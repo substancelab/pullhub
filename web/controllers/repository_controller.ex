@@ -6,21 +6,21 @@ defmodule Pullhub.RepositoryController do
   alias Pullhub.RepositoriesService
 
   def index(conn, _params) do
-    render(conn, "index.html", repositories: all_repositories(conn), user_repos: user_repos(conn))
+    render(conn, "index.html", repositories: Repo.all(Repository), user_repos: user_repos(conn))
   end
 
   def create(conn, %{"repositories" => %{"ids" => repository_ids}}) do
-    delete_existing_user_repositories conn
+    disable_all_user_repositories conn
 
-    case create_user_repositories conn, repository_ids do
+    case enable_user_repositories conn, repository_ids do
       {:ok, count} ->
         conn
         |> put_flash(:info, "Repositories saved.")
-        |> render("index.html", repositories: all_repositories(conn), user_repos: user_repos(conn))
+        |> render("index.html", repositories: Repo.all(Repository), user_repos: user_repos(conn))
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Repositories ERRROR saving.")
-        |> render("index.html", repositories: all_repositories(conn), user_repos: user_repos(conn))
+        |> put_flash(:error, "Repositories ERROR saving.")
+        |> render("index.html", repositories: Repo.all(Repository), user_repos: user_repos(conn))
     end
   end
 
@@ -37,31 +37,15 @@ defmodule Pullhub.RepositoryController do
     user_repos = Repo.all(from( r in Repository, where: r.user_id == ^user_id(conn) ))
   end
 
-  def all_repositories(conn) do
-    Repo.all(Repository)
-    #RepositoriesService.user_repositories(conn.assigns[:user])
+  defp disable_all_user_repositories(conn) do
+    query = from(r in Repository, where: r.user_id == ^user_id(conn))
+    Repo.update_all(query, set: [enabled: false])
   end
 
-  def delete_existing_user_repositories(conn) do
-    from(r in Repository, where: r.user_id == ^user_id(conn))
-    |> Repo.delete_all
-  end
+  defp enable_user_repositories(conn, repository_ids) do
+    query = from(r in Repository, where: r.id in ^repository_ids)
+    Repo.update_all(query, set: [enabled: true])
 
-  def create_user_repositories(conn, repository_ids) do
-    {:ok, inserted_at} = Ecto.DateTime.cast(DateTime.utc_now())
-
-    entries = Enum.map(repository_ids, fn(repo_id) ->
-      {remote_id, _} = Integer.parse(repo_id)
-      %{
-        remote_id: remote_id,
-        user_id: user_id(conn),
-        name: "",
-        inserted_at: inserted_at,
-        updated_at: inserted_at
-      }
-    end)
-
-    {count, nil} = Repo.insert_all(Repository, entries)
-    {:ok, count}
+    {:ok, Repo.aggregate(query, :count, :id)}
   end
 end
