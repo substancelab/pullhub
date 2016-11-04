@@ -30,6 +30,8 @@ defmodule Pullhub.User do
             where: u.email == ^user.email
     if !Repo.one(query)  do
       Repo.insert(user)
+    else
+      Repo.update_all(query, set: [github_token: user.github_token, uid: user.uid])
     end
     Repo.one(query)
   end

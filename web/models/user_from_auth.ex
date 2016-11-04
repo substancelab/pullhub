@@ -20,12 +20,10 @@ defmodule UserFromAuth do
     Logger.debug "auth: #{auth.credentials.token}"
     Logger.debug "auth: #{auth.info.email}"
 
-    %User{email: auth.info.email, github_token: auth.credentials.token }
+    %User{email: auth.info.email, github_token: auth.credentials.token, uid: auth.uid  }
     |> User.find_or_create
     |> return_ok
   end
-
-
 
   def return_ok(user) do
     {:ok, user}
