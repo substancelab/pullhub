@@ -43,3 +43,5 @@ config :pullhub, Pullhub.Repo,
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
   client_id: System.get_env("GITHUB_CLIENT_ID") || "317829d706e7f8599184",
   client_secret: System.get_env("GITHUB_CLIENT_SECRET") || "81c8e3f4fc10fa346a72c4246fbb60065859c76d"
+
+config :honeybadger, :environment_name, :dev
