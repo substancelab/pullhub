@@ -39,7 +39,7 @@ defmodule Pullhub.PullRequestsFetcher do
 
   def fetch_and_update_pull_requests(user) do
     client = Tentacat.Client.new(%{access_token: user.github_token})
-    user
+    user.id
     |> Repository.enabled_repositories
     |> Repo.all
     |> update_pull_requests(user, client)
