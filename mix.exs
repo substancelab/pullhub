@@ -18,7 +18,7 @@ defmodule Pullhub.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Pullhub, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :honeybadger, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :ueberauth,
                     :oauth,
                     :ueberauth_github, :tentacat]]
@@ -43,7 +43,8 @@ defmodule Pullhub.Mixfile do
      {:ueberauth, "~> 0.3"},
      {:oauth, github: "tim/erlang-oauth"},
      {:ueberauth_github, github: "ueberauth/ueberauth_github"},
-     {:tentacat, "~> 0.5"}]
+     {:tentacat, "~> 0.5"},
+     {:honeybadger, "~> 0.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
