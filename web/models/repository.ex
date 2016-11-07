@@ -56,6 +56,6 @@ defmodule Pullhub.Repository do
   Finds repositories by a list of ids
   """
   def find_by_ids(repository_ids) do
-    from(r in Repository, where: r.id in ^repository_ids)
+    from(r in Pullhub.Repository, where: r.id in ^repository_ids)
   end
 end
