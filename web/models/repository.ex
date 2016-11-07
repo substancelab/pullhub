@@ -34,18 +34,27 @@ defmodule Pullhub.Repository do
     Repo.one(query)
   end
 
+  @doc """
+  Finds repositories belonging to user with id = user_id
+  """
   def user_repositories(user_id) do
     from( r in Pullhub.Repository,
           where: r.user_id == ^user_id
         )
   end
 
+  @doc """
+  Finds repositories marked as enabled
+  """
   def enabled_repositories(query) do
     from( r in query,
           where: r.enabled == true
         )
   end
 
+  @doc """
+  Finds repositories by a list of ids
+  """
   def find_by_ids(repository_ids) do
     from(r in Repository, where: r.id in ^repository_ids)
   end
