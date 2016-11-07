@@ -98,6 +98,6 @@ defmodule Pullhub.PullRequestsFetcher do
   end
 
   defp schedule_work do
-    Process.send_after(self(), :fetch, 30_000)
+    Process.send_after(self(), :fetch, 120_000)
   end
 end
