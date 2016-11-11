@@ -1,20 +1,38 @@
 # Pullhub
 
-To start your Phoenix app:
+## Run app
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `npm install`
-  * Start Phoenix endpoint with `mix phoenix.server`
+```sh
+brew install elixir
+mix local.hex
+mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+mix deps.get
+mix ecto.create && mix.ecto migrate
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+npm install
 
-## Learn more
+mix phoenix.server`
+```
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+
+## Deployment
+
+```sh
+git push heroku
+```
+
+## Setup production heroku server
+
+```sh
+# Create a Heroku instance for your project
+heroku apps:create my_heroku_app
+
+# Set and add the buildpacks for your Heroku app
+heroku buildpacks:set https://github.com/HashNuke/heroku-buildpack-elixir
+heroku buildpacks:add https://github.com/gjaldon/heroku-buildpack-phoenix-static
+heroku buildpacks:add https://github.com/heroku/heroku-buildpack-ruby
+
+# Deploy
+git push heroku master
+```
