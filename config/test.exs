@@ -17,3 +17,5 @@ config :pullhub, Pullhub.Repo,
   database: "pullhub_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :honeybadger, :environment_name, :test

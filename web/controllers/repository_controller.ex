@@ -37,6 +37,7 @@ defmodule Pullhub.RepositoryController do
     user_id(conn)
     |> Repository.user_repositories
     |> Repo.all
+    |> Repository.sort
   end
 
   defp disable_all_user_repositories(conn) do
