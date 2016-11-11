@@ -7,6 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <%= tag :meta, name: "user_token",
+               content: assigns[:user_token] %>
+    <%= tag :meta, name: "user_id",
+               content: assigns[:user].id %>
+
     <title>Pullhub!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
