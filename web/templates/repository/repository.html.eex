@@ -1,0 +1,10 @@
+<tr data-repository-remote-id="<%= @repository.remote_id %>">
+<td><%= @repository.owner %> / <%= @repository.name %></td>
+  <td>
+    <%= if @repository.enabled do %>
+    <input type="checkbox" name="repositories[ids][]" value="<%= @repository.id %>" checked="checked"/>
+    <%= else %>
+    <input type="checkbox" name="repositories[ids][]" value="<%= @repository.id %>"/>
+    <% end %>
+  </td>
+</tr>

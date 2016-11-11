@@ -24,7 +24,6 @@ defmodule Pullhub.Router do
     get "/", PullRequestController, :index
     delete "/logout", AuthController, :delete
 
-    post "/repositories/fetch_user_repos", RepositoryController, :fetch_user_repos
     resources "/repositories", RepositoryController
     resources "/pull_requests", PullRequestController
   end

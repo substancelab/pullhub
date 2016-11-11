@@ -1,10 +1,10 @@
 <h2>Listing repositories</h2>
 
-<%= button("Fetch repos", to: "/repositories/fetch_user_repos") %>
+<p id="repository-fetch-info">Fetching latest data from Github</p>
 
 <%= form_for @conn, repository_path(@conn, :create), [as: :repository], fn f -> %>
 
-<table class="table">
+<table class="table" id="repositories-table">
   <thead>
     <tr>
       <th>Name</th>
@@ -14,16 +14,7 @@
   </thead>
   <tbody>
   <%= for repository <- @repositories do %>
-      <tr>
-        <td><%= repository.owner %> / <%= repository.name %></td>
-        <td>
-          <%= if user_has_repo_checked(repository) do %>
-            <input type="checkbox" name="repositories[ids][]" value="<%= repository.id %>" checked="checked"/>
-          <%= else %>
-            <input type="checkbox" name="repositories[ids][]" value="<%= repository.id %>"/>
-          <% end %>
-        </td>
-      </tr>
+    <%= render Pullhub.RepositoryView, "repository.html", conn: @conn, repository: repository %>
   <% end %>
   </tbody>
 </table>
