@@ -34,6 +34,14 @@ defmodule Pullhub.Repository do
     Repo.one(query)
   end
 
+  def sort(repositories) do
+    Enum.sort(
+      repositories, &(
+        &1.enabled > &2.enabled
+      )
+    )
+  end
+
   @doc """
   Finds repositories belonging to user with id = user_id
   """

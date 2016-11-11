@@ -32,4 +32,9 @@ defmodule Pullhub.RepositoryTest do
     assert length(Pullhub.Repo.all(Repository)) == 1
   end
 
+  test "sort sorts the repositories" do
+    repo = %{remote_id: 10, name: "aaaalong", owner: "1", enabled: false}
+    enabled_repo = %{remote_id: 11, name: "ZZZZebra", owner: "1", enabled: true}
+    assert hd(Repository.sort([repo, enabled_repo])) == enabled_repo
+  end
 end
