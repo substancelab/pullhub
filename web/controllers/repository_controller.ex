@@ -24,11 +24,6 @@ defmodule Pullhub.RepositoryController do
     end
   end
 
-  def fetch_user_repos(conn, _params) do
-    Pullhub.RepoFetcher.fetch(%{})
-    redirect conn, to: "/repositories"
-  end
-
   def user_id(conn) do
     conn.assigns[:user].id
   end
