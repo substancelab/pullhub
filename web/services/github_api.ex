@@ -1,38 +1,62 @@
 defmodule Pullhub.GithubApi do
   require Logger
 
+  alias Pullhub.PullRequest
   alias Pullhub.Repo
+  alias Pullhub.Repository
+  alias Pullhub.User
 
-  def user_repositories(nil) do
+  def repositories(nil) do
     nil
   end
 
-  def user_repositories(user) do
+  def repositories(%User{} = user) do
     Tentacat.Client.new(%{access_token: user.github_token})
     |> Tentacat.Repositories.list_mine
-    |> simplify_repositories
-    |> convert_repository_to_structs(user)
+    |> convert_repositories_to_structs(user)
   end
 
-  def pull_requests(repo, user) do
+  def pull_requests(repo, %User{} = user) do
     client = Tentacat.Client.new(%{access_token: user.github_token})
-    Tentacat.Pulls.filter(repo.owner, repo.name, [state: "all"], client)
+    Tentacat.Pulls.list(repo.owner, repo.name, client)
+    |> convert_pull_requests_to_stucts
   end
 
-  defp simplify_repositories(repositories) do
-    Enum.map(repositories, fn(r) -> %{
-      owner: r["owner"]["login"],
-      name: r["name"],
-      remote_id: r["id"]
-    } end)
+
+  # handle errors from github
+  defp convert_pull_requests_to_stucts({response_code, %{"message" => message} = payload}) do
+    {:error, message}
   end
 
-  defp convert_repository_to_structs(repos, user) do
-    Enum.map(repos, fn(repo) -> %{
-      name: repo.name,
-      owner: repo.owner,
-      remote_id: repo.remote_id,
+  defp convert_pull_requests_to_stucts(github_data) do
+    Enum.map(github_data, &extract_pull_info/1)
+  end
+
+  # handle errors from github
+  defp convert_repositories_to_structs({response_code, %{"message" => message} = payload}) do
+    {:error, message}
+  end
+
+  defp convert_repositories_to_structs(repos, user) do
+    Enum.map(repos, fn(repo) -> %Repository{
+      name: repo["name"],
+      owner: repo["owner"]["login"],
+      remote_id: repo["id"],
       user_id: user.id
     } end)
+  end
+
+  defp extract_pull_info(pull) do
+    %PullRequest{
+      assignees_logins: Enum.map(pull["assignees"], fn(user) -> user["login"] end),
+      body: pull["body"],
+      issue_url: pull["issue_url"],
+      remote_id: pull["id"],
+      repository_id: nil,
+      state: pull["state"],
+      title: pull["title"],
+      url: pull["html_url"],
+      author_login: pull["user"]["login"]
+    }
   end
 end
