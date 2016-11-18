@@ -13,42 +13,23 @@ defmodule Pullhub.GithubApi do
   def repositories(%User{} = user) do
     Tentacat.Client.new(%{access_token: user.github_token})
     |> Tentacat.Repositories.list_mine
-    |> convert_repositories_to_structs(user)
+    |> to_struct(user)
   end
 
   def pull_requests(repo, %User{} = user) do
     client = Tentacat.Client.new(%{access_token: user.github_token})
     Tentacat.Pulls.list(repo.owner, repo.name, client)
-    |> convert_pull_requests_to_stucts
+    |> to_struct
   end
 
 
-  # handle errors from github
-  defp convert_pull_requests_to_stucts({response_code, %{"message" => message} = payload}) do
-    {:error, message}
-  end
-
-  defp convert_pull_requests_to_stucts(github_data) do
-    Enum.map(github_data, &extract_pull_info/1)
-  end
-
-  # handle errors from github
-  defp convert_repositories_to_structs({response_code, %{"message" => message} = payload}) do
-    {:error, message}
-  end
-
-  defp convert_repositories_to_structs(repos, user) do
-    Enum.map(repos, fn(repo) -> %Repository{
-      name: repo["name"],
-      owner: repo["owner"]["login"],
-      remote_id: repo["id"],
-      user_id: user.id
-    } end)
+  defp assigness_from_pull(pull) do
+    Enum.map(pull["assignees"], fn(user) -> user["login"] end)
   end
 
   defp extract_pull_info(pull) do
     %PullRequest{
-      assignees_logins: Enum.map(pull["assignees"], fn(user) -> user["login"] end),
+      assignees_logins: assigness_from_pull(pull),
       body: pull["body"],
       issue_url: pull["issue_url"],
       remote_id: pull["id"],
@@ -58,5 +39,27 @@ defmodule Pullhub.GithubApi do
       url: pull["html_url"],
       author_login: pull["user"]["login"]
     }
+  end
+
+  defp extract_repo_info(repo, user) do
+    %Repository{
+      name: repo["name"],
+      owner: repo["owner"]["login"],
+      remote_id: repo["id"],
+      user_id: user.id
+    }
+  end
+
+  # handle errors from github
+  defp to_struct({response_code, %{"message" => message} = payload}) do
+    {:error, message}
+  end
+
+  defp to_struct(github_data) do
+    Enum.map(github_data, &extract_pull_info/1)
+  end
+
+  defp to_struct(repos, %User{} = user) do
+    Enum.map(repos, &extract_repo_info(&1, user))
   end
 end
