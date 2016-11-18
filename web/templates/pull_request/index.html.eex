@@ -1,6 +1,9 @@
+
+<p id="pullrequest-fetch-info">Fetching latest data from Github</p>
+
 <%= for repository <- @repositories do %>
   <h3><%= repository.owner %> / <%= repository.name %></h3>
-  <table class="table">
+  <table class="table" id="repository-pull-requests-<%= repository.id %>">
     <thead>
       <tr>
         <th>Title</th>
@@ -9,12 +12,7 @@
     </thead>
     <tbody>
     <%= for pull_request <- repository.pull_requests do %>
-        <tr class="<%= mark_if_assigned(pull_request, repository.user) %>">
-          <td><%= link "#{pull_request.title} (#{pull_request.author_login})", to: pull_request.url %></td>
-          <td>
-              <%= Enum.join(pull_request.assignees_logins, ",") %>
-          </td>
-        </tr>
+      <%= render Pullhub.PullRequestView, "pull_request.html", conn: @conn, repository: repository, pull_request: pull_request %>
     <% end %>
     </tbody>
   </table>
