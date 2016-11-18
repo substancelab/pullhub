@@ -1,5 +1,9 @@
 /* global $ */
 export default function repositoryChannelHandler (socket, userId) {
+  if ($('#repositories-table tbody').length === 0) {
+    return
+  }
+
   let channel = socket.channel(`repository:list:${userId}`, {})
   channel.join()
     .receive('ok', resp => {
