@@ -35,4 +35,9 @@ defmodule Pullhub.User do
     end
     Repo.one(query)
   end
+
+  def users_with_github_tokens do
+    (from user in Pullhub.User, where: not(is_nil(user.github_token)))
+    |> Repo.all
+  end
 end

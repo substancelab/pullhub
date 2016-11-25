@@ -23,7 +23,7 @@ defmodule Pullhub.RepoFetcher do
 
   defp fetch_and_update_repositories(user) do
     user
-    |> GithubApi.user_repositories
+    |> GithubApi.repositories
     |> Enum.map(&Repository.find_or_create/1)
     |> Repository.sort
     |> Enum.map(&render_repository/1)

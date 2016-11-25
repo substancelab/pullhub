@@ -51,6 +51,14 @@ defmodule Pullhub.Repository do
         )
   end
 
+  def preload_user(query) do
+    from( r in query,
+        preload: [
+          user: :repositories
+        ]
+    )
+  end
+
   @doc """
   Finds repositories marked as enabled
   """

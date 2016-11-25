@@ -1,0 +1,6 @@
+<tr class="<%= mark_if_assigned(@pull_request, @repository.user) %>">
+  <td><%= link "#{@pull_request.title} (#{@pull_request.author_login})", to: @pull_request.url %></td>
+  <td>
+      <%= Enum.join(@pull_request.assignees_logins, ",") %>
+  </td>
+</tr>

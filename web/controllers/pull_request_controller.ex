@@ -16,10 +16,10 @@ defmodule Pullhub.PullRequestController do
   def user_repos(conn) do
     user_id(conn)
     |> Repository.user_repositories
+    |> Repository.enabled_repositories
     |> preload_pull_requests
     |> preload_users
     |> Repo.all
-    |> Enum.filter(fn(repo) -> Enum.count(repo.pull_requests) > 0 end)
   end
 
   def preload_pull_requests(query) do

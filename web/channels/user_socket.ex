@@ -3,6 +3,7 @@ defmodule Pullhub.UserSocket do
 
   ## Channels
   channel "repository:*", Pullhub.RepositoryChannel
+  channel "pull_request:*", Pullhub.PullRequestChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
