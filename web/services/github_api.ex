@@ -6,6 +6,21 @@ defmodule Pullhub.GithubApi do
   alias Pullhub.Repository
   alias Pullhub.User
 
+  def hooks(repo, %User{} = user) do
+    client = Tentacat.Client.new(%{access_token: user.github_token})
+    Tentacat.Hooks.list(repo.owner, repo.name, client)
+  end
+
+  def create_hook(repo, %User{} = user) do
+    client = Tentacat.Client.new(%{access_token: user.github_token})
+    Tentacat.Hooks.create(repo.owner, repo.name, client, hook_configuration)
+  end
+
+  def remove_hook(repo, %User{} = user) do
+    client = Tentacat.Client.new(%{access_token: user.github_token})
+    Tentacat.Hooks.remove(repo.owner, repo.name, client, hook_configuration)
+  end
+
   def repositories(nil) do
     nil
   end
@@ -20,6 +35,18 @@ defmodule Pullhub.GithubApi do
     client = Tentacat.Client.new(%{access_token: user.github_token})
     Tentacat.Pulls.list(repo.owner, repo.name, client)
     |> to_struct
+  end
+
+  def hook_configuration do
+    %{
+      name: "pullhub",
+      active: true,
+      events: [ "push", "pull_request" ],
+      config: %{
+        url: "https://pullhub.herokuapp.com/github_webhook",
+        content_type: "json"
+      }
+    }
   end
 
 
