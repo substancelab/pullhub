@@ -10,7 +10,7 @@ defmodule Pullhub.PullRequestController do
   end
 
   def user_id(conn) do
-    conn.assigns[:user].id
+    conn.assigns[:current_user].id
   end
 
   def user_repos(conn) do

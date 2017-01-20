@@ -10,7 +10,7 @@
     <%= tag :meta, name: "user_token",
                content: assigns[:user_token] %>
     <%= tag :meta, name: "user_id",
-               content: assigns[:user].id %>
+               content: assigns[:current_user].id %>
 
     <title>Pullhub!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
@@ -30,7 +30,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <%= if @user do %>
+            <%= if @current_user do %>
               <li>
                 <%= link "Pull requests", to: pull_request_path(@conn, :index) %>
               </li>
@@ -40,7 +40,7 @@
             <% end %>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <%= if @user do %>
+            <%= if @current_user do %>
               <li>
                 <%= link "Log out", to: auth_path(@conn, :delete), method: :delete %>
               </li>
