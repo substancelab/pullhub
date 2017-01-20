@@ -39,8 +39,8 @@ defmodule Pullhub.Plugs.Authenticate do
     nil
   end
 
-  defp find_user(id) do
-    Repo.get(User, id)
+  defp find_user(user) do
+    Repo.get(User, user.id)
   end
 
   defp auth_error!(conn) do
