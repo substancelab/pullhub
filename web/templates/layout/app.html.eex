@@ -7,10 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <%= tag :meta, name: "user_token",
-               content: assigns[:user_token] %>
-    <%= tag :meta, name: "user_id",
-               content: assigns[:current_user].id %>
+    <%= tag :meta, name: "user_token", content: assigns[:user_token] %>
+    <%= tag :meta, name: "user_id", content: assigns[:current_user].id %>
 
     <title><%= title(@conn) %></title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
@@ -18,54 +16,40 @@
 
   <body>
 
-  <div class="container py-5">
-    <div class="columns">
-      <div class="one-fifth column">
-        <h1>Pullhub</h1>
+    <div class="container py-5">
+      <div class="columns">
+        <div class="one-fifth column pb-3">
+          <h1>Pullhub</h1>
+        </div>
       </div>
-    </div>
-    <div class="columns">
-      <div class="one-fifth column">
-        <%= if @current_user do %>
+      <div class="columns">
+        <div class="one-fifth column">
+          <%= if @current_user do %>
           <nav class="menu">
             <%=
-              active_link(@conn, "Pull requests", to: pull_request_path(@conn, :index), class: "menu-item")
+            active_link(@conn, "Pull requests", to: pull_request_path(@conn, :index), class: "menu-item")
             %>
 
             <%=
-              active_link(@conn, "Repositories", to: repository_path(@conn, :index), class: "menu-item")
+            active_link(@conn, "Repositories", to: repository_path(@conn, :index), class: "menu-item")
             %>
           </nav>
-        <% end %>
 
-        <nav class="menu">
-          <%= if @current_user do %>
+          <nav class="menu">
             <li>
               <%= link "Log out", to: auth_path(@conn, :delete), method: :delete, class: "menu-item" %>
             </li>
-          <%= else %>
-            <li>
-              <%= link "Login", to: auth_path(@conn, :request, :github), class: "menu-item" %>
-            </li>
+          </nav>
           <% end %>
-        </nav>
-      </div>
-      <div class="four-fifths column">
-        <%= if get_flash(@conn, :info) do %>
-          <p class="flash flash-info" role="flash">
-            <%= get_flash(@conn, :info) %>
-          </p>
-        <% end %>
-        <%= if get_flash(@conn, :error) do %>
-          <p class="flash flash-error" role="flash">
-            <%= get_flash(@conn, :error) %>
-          </p>
-        <% end %>
+        </div>
+        <div class="four-fifths column">
+          <p class="flash flash-info" role="flash"><%= get_flash(@conn, :info) %></p>
+          <p class="flash flash-error" role="flash"><%= get_flash(@conn, :error) %></p>
 
-        <%= render @view_module, @view_template, assigns %>
+          <%= render @view_module, @view_template, assigns %>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

@@ -38,9 +38,6 @@ exports.config = {
     copycat: {
       "fonts": [
         "node_modules/bootstrap-sass/assets/fonts/bootstrap"
-      ],
-      "octicon": [
-        "node_modules/octicons/build/"
       ]
     },
     sass: {
