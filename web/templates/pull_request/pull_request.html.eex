@@ -27,7 +27,9 @@
       %>
       <div class="float-right col-7 pt-2 pr-3 text-right">
         <div class="avatar-stack tooltipped tooltipped-multiline tooltipped-s" aria-label="Assigned to ">
-          <img class="avatar avatar-small" src="https://avatars3.githubusercontent.com/u/9919?v=3&s=64" width="32" height="32">
+          <%= for avatar <- @pull_request.assignees_avatars do %>
+            <img class="avatar avatar-small" src="<%= avatar %>" width="32" height="32">
+          <% end %>
         </div>
       </div>
     </div>
