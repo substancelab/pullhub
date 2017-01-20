@@ -1,10 +1,25 @@
-<tr data-repository-remote-id="<%= @repository.remote_id %>">
-<td><%= @repository.owner %> / <%= @repository.name %></td>
-  <td>
-    <%= if @repository.enabled do %>
-    <input type="checkbox" name="repositories[ids][]" value="<%= @repository.id %>" checked="checked"/>
-    <%= else %>
-    <input type="checkbox" name="repositories[ids][]" value="<%= @repository.id %>"/>
-    <% end %>
-  </td>
-</tr>
+<li class="Box-row Box-row--focus-gray p-0 js-navigation-item js-issue-row selectable" data-id="202110246">
+  <div class="d-table table-fixed width-full Box-row--drag-hide">
+    <label class="float-left py-2 pl-3">
+      <%= if @repository.enabled do %>
+      <input type="checkbox" name="repositories[ids][]" value="<%= @repository.id %>" checked="checked"/>
+      <%= else %>
+      <input type="checkbox" name="repositories[ids][]" value="<%= @repository.id %>"/>
+      <% end %>
+    </label>
+
+
+    <!-- Issue title column -->
+    <div class="float-left col-9 p-2 lh-condensed">
+
+      <a href="#" class="link-gray-dark no-underline h4 js-navigation-open">
+        <%= @repository.name %>
+      </a>
+      <div class="mt-1 text-small text-gray">
+        <span class="opened-by">
+          <%= @repository.owner %>
+        </span>
+      </div>
+    </div>
+  </div>
+</li>
