@@ -22,13 +22,12 @@
     </div>
 
     <div class="float-right col-2">
-      <%=
-        # Enum.join(@pull_request.assignees_logins, ",")
-      %>
       <div class="float-right col-7 pt-2 pr-3 text-right">
         <div class="avatar-stack tooltipped tooltipped-multiline tooltipped-s" aria-label="Assigned to ">
-          <%= for avatar <- @pull_request.assignees_avatars do %>
-            <img class="avatar avatar-small" src="<%= avatar %>" width="32" height="32">
+          <%= if @pull_request.assignees_avatars do %>
+            <%= for avatar <- @pull_request.assignees_avatars do %>
+              <img class="avatar avatar-small" src="<%= avatar %>" width="32" height="32">
+            <% end %>
           <% end %>
         </div>
       </div>
