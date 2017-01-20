@@ -52,6 +52,7 @@ defmodule Pullhub.Web do
       import Pullhub.Router.Helpers
       import Pullhub.ErrorHelpers
       import Pullhub.Gettext
+      import PhoenixActiveLink
     end
   end
 

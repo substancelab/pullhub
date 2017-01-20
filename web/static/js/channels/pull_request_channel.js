@@ -19,7 +19,10 @@ export default function pullRequestChannelHandler (socket, userId) {
   channel.on('pull_requests_updated', payload => {
     payload.data.forEach((info) => {
       let content = info.rendered_pull_requests
-      $(`#repository-pull-requests-${info.repository_id} tbody`).html(content)
+      let $list = $(`#repository-pull-requests-${info.repository_id}`)
+      $list.html(content)
+
+      $list.closest(".pull-requests-container").toggleClass("hidden", $list.children().length == 0)
     })
     $('#pullrequest-fetch-info').hide()
 
