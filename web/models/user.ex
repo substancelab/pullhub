@@ -25,7 +25,7 @@ defmodule Pullhub.User do
   @doc """
   Finds one user based on email. If none is found it is created and returned
   """
-  def find_or_create(user) do
+  def find_or_create(%Pullhub.User{} = user) do
     query = from u in Pullhub.User,
             where: u.email == ^user.email
     if !Repo.one(query)  do
@@ -34,6 +34,11 @@ defmodule Pullhub.User do
       Repo.update_all(query, set: [github_token: user.github_token, uid: user.uid])
     end
     Repo.one(query)
+  end
+
+  def find_or_create(user) do
+    struct(Pullhub.User, user)
+    |> find_or_create
   end
 
   def users_with_github_tokens do
