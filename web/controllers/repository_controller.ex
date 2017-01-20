@@ -6,7 +6,9 @@ defmodule Pullhub.RepositoryController do
   alias Pullhub.RepositoriesService
 
   def index(conn, _params) do
-    render(conn, "index.html", repositories: user_repos(conn))
+    conn
+    |> assign(:page_title, "Repositories")
+    |> render("index.html", repositories: user_repos(conn))
   end
 
   def create(conn, %{"repositories" => %{"ids" => repository_ids}}) do

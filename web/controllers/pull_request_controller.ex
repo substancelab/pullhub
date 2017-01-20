@@ -6,7 +6,9 @@ defmodule Pullhub.PullRequestController do
   alias Pullhub.PullRequest
 
   def index(conn, _params) do
-    render(conn, "index.html", repositories: user_repos(conn))
+    conn
+    |> assign(:page_title, "Pull requests")
+    |> render("index.html", repositories: user_repos(conn))
   end
 
   def user_id(conn) do

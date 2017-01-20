@@ -12,7 +12,7 @@
     <%= tag :meta, name: "user_id",
                content: assigns[:current_user].id %>
 
-    <title>Pullhub!</title>
+    <title><%= title(@conn) %></title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
