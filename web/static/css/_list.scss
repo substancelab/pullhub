@@ -1,0 +1,56 @@
+.list-container {
+  @extend .border-bottom;
+  @extend .border-left;
+  @extend .border-right;
+  @extend .border-top;
+}
+
+.list-item {
+  @extend .Box-row--focus-gray;
+  @extend .Box-row;
+  @extend .p-0;
+}
+
+.list-item-inner {
+  @extend .d-table;
+  @extend .table-fixed;
+  @extend .width-full;
+}
+
+.list-item-checkbox {
+  @extend .float-left;
+  @extend .pl-3;
+  @extend .py-2;
+}
+
+.list-item-main {
+  @extend .col-9;
+  @extend .float-left;
+  @extend .lh-condensed;
+  @extend .p-2;
+}
+
+.list-item-main-link {
+  @extend .h4;
+  @extend .link-gray-dark;
+  @extend .no-underline;
+}
+
+.list-item-main-description {
+  @extend .mt-1;
+  @extend .text-gray;
+  @extend .text-small;
+}
+
+.list-item-avatars {
+  @extend .col-2;
+  @extend .float-right;
+}
+
+.list-item-avatars-inner {
+  @extend .col-7;
+  @extend .float-right;
+  @extend .pr-3;
+  @extend .pt-2;
+  @extend .text-right;
+}

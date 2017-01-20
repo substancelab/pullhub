@@ -2,6 +2,7 @@
 $icon-font-path: "/fonts/"; /* use fonts from priv/static/fonts/ */
 @import "primer-css/index.scss";
 @import "./octicons";
+@import "./list";
 
 tr.highlight {
   background-color: red;
