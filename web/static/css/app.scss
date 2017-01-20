@@ -1,11 +1,8 @@
-/* This file is for your main application css. */
-$icon-font-path: "/fonts/"; /* use fonts from priv/static/fonts/ */
 @import "primer-css/index.scss";
-@import "./octicons";
 @import "./list";
 
-tr.highlight {
-  background-color: red;
+.flash:empty {
+  display: none !important;
 }
 
 .hidden {

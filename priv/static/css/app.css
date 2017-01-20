@@ -1,5 +1,3 @@
-/* This file is for your main application css. */
-/* use fonts from priv/static/fonts/ */
 /*!
  * Primer
  * http://primercss.io
@@ -628,19 +626,19 @@ pre {
   border: 1px #e5e5e5 solid !important; }
 
 /* Add a gray border to the top */
-.border-top {
+.border-top, .list-container {
   border-top: 1px #e5e5e5 solid !important; }
 
 /* Add a gray border to the right */
-.border-right {
+.border-right, .list-container {
   border-right: 1px #e5e5e5 solid !important; }
 
 /* Add a gray border to the bottom */
-.border-bottom {
+.border-bottom, .list-container {
   border-bottom: 1px #e5e5e5 solid !important; }
 
 /* Add a gray border to the left */
-.border-left {
+.border-left, .list-container {
   border-left: 1px #e5e5e5 solid !important; }
 
 /* Add a gray border to the left and right */
@@ -789,7 +787,7 @@ pre {
   color: #999 !important; }
 
 /* Set the text color to $text-gray */
-.text-gray {
+.text-gray, .list-item-main-description {
   color: #767676 !important; }
 
 /* Set the text color to $text-gray-dark */
@@ -827,9 +825,9 @@ pre {
   .link-gray:hover {
     color: #4078c0 !important; }
 
-.link-gray-dark {
+.link-gray-dark, .list-item-main-link {
   color: #333 !important; }
-  .link-gray-dark:hover {
+  .link-gray-dark:hover, .list-item-main-link:hover {
     color: #4078c0 !important; }
 
 /* Set the link color to $text-blue on hover
@@ -1262,11 +1260,11 @@ pre {
   content: ""; }
 
 /* Float to the right */
-.float-right {
+.float-right, .list-item-avatars, .list-item-avatars-inner {
   float: right !important; }
 
 /* Float to the left */
-.float-left {
+.float-left, .list-item-checkbox, .list-item-main {
   float: left !important; }
 
 /* Don't float left or right */
@@ -1322,7 +1320,7 @@ pre {
   max-width: 100% !important; }
 
 /* Set the width to 100% */
-.width-full {
+.width-full, .list-item-inner {
   width: 100% !important; }
 
 /* Set the height to 100% */
@@ -1406,7 +1404,7 @@ pre {
   margin: 4px !important; }
 
 /* Set a 4px margin on the top */
-.mt-1 {
+.mt-1, .list-item-main-description {
   margin-top: 4px !important; }
 
 /* Set a 4px margin on the right */
@@ -2287,7 +2285,7 @@ pre {
   margin-left: auto !important; }
 
 /* Set a 0 padding to all sides */
-.p-0 {
+.p-0, .list-item {
   padding: 0 !important; }
 
 /* Set a 0 padding to the top */
@@ -2347,11 +2345,11 @@ pre {
   padding-bottom: 4px !important; }
 
 /* Set a 8px padding to all sides */
-.p-2 {
+.p-2, .list-item-main {
   padding: 8px !important; }
 
 /* Set a 8px padding to the top */
-.pt-2 {
+.pt-2, .list-item-avatars-inner {
   padding-top: 8px !important; }
 
 /* Set a 8px padding to the right */
@@ -2372,7 +2370,7 @@ pre {
   padding-left: 8px !important; }
 
 /* Set a 8px padding to the top & bottom */
-.py-2 {
+.py-2, .list-item-checkbox {
   padding-top: 8px !important;
   padding-bottom: 8px !important; }
 
@@ -2385,7 +2383,7 @@ pre {
   padding-top: 16px !important; }
 
 /* Set a 16px padding to the right */
-.pr-3 {
+.pr-3, .list-item-avatars-inner {
   padding-right: 16px !important; }
 
 /* Set a 16px padding to the bottom */
@@ -2393,7 +2391,7 @@ pre {
   padding-bottom: 16px !important; }
 
 /* Set a 16px padding to the left */
-.pl-3 {
+.pl-3, .list-item-checkbox {
   padding-left: 16px !important; }
 
 /* Set a 16px padding to the left & right */
@@ -3218,10 +3216,10 @@ pre {
       font-size: 20px !important; } }
 
 /* Set the font size to 16px */
-.h4 {
+.h4, .list-item-main-link {
   font-size: 16px !important; }
   @media (min-width: 768px) {
-    .h4 {
+    .h4, .list-item-main-link {
       font-size: 16px !important; } }
 
 /* Set the font size to 14px */
@@ -3232,7 +3230,7 @@ pre {
 .h6 {
   font-size: 12px !important; }
 
-.h1, .h2, .h3, .h4, .h5, .h6 {
+.h1, .h2, .h3, .h4, .list-item-main-link, .h5, .h6 {
   font-weight: 600 !important; }
 
 /* Set the font size to 26px */
@@ -3312,7 +3310,7 @@ pre {
       font-size: 20px !important; } }
 
 /* Set the font size to ${#h6-size} */
-.text-small {
+.text-small, .list-item-main-description {
   font-size: 12px !important; }
 
 /* Large leading paragraphs */
@@ -3327,7 +3325,7 @@ pre {
   line-height: 1 !important; }
 
 /* Set the line height to condensed */
-.lh-condensed {
+.lh-condensed, .list-item-main {
   line-height: 1.25 !important; }
 
 /* Set the line height to default */
@@ -3335,7 +3333,7 @@ pre {
   line-height: 1.5 !important; }
 
 /* Text align to the right */
-.text-right {
+.text-right, .list-item-avatars-inner {
   text-align: right !important; }
 
 /* Text align to the left */
@@ -3395,7 +3393,7 @@ pre {
   text-transform: uppercase !important; }
 
 /* Underline text */
-.no-underline {
+.no-underline, .list-item-main-link {
   text-decoration: none !important; }
 
 /* Don't wrap white space */
@@ -3430,7 +3428,7 @@ pre {
   visibility: visible !important; }
 
 /* Set the display to table */
-.d-table {
+.d-table, .list-item-inner {
   display: table !important; }
 
 /* Set the display to table-cell */
@@ -3438,7 +3436,7 @@ pre {
   display: table-cell !important; }
 
 /* Set the table-layout to fixed */
-.table-fixed {
+.table-fixed, .list-item-inner {
   table-layout: fixed !important; }
 
 /* Set the display to block */
@@ -3746,7 +3744,7 @@ pre {
     padding: 8px 16px;
     margin: -8px -16px;
     line-height: 1.25; }
-  .Box--condensed .Box-row {
+  .Box--condensed .Box-row, .Box--condensed .list-item {
     padding: 8px 16px; }
 
 .Box--spacious .Box-header {
@@ -3766,7 +3764,7 @@ pre {
   padding: 24px;
   margin: -24px -24px; }
 
-.Box--spacious .Box-row {
+.Box--spacious .Box-row, .Box--spacious .list-item {
   padding: 24px; }
 
 .Box-header {
@@ -3791,34 +3789,34 @@ pre {
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px; }
 
-.Box-row {
+.Box-row, .list-item {
   padding: 16px;
   margin-top: -1px;
   list-style-type: none;
   border-top: 1px solid #eee; }
-  .Box-row:first-of-type {
+  .Box-row:first-of-type, .list-item:first-of-type {
     border-top-color: transparent;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px; }
-  .Box-row:last-of-type {
+  .Box-row:last-of-type, .list-item:last-of-type {
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px; }
-  .Box-row.Box-row--unread, .Box-row.unread {
+  .Box-row.Box-row--unread, .Box-row--unread.list-item, .Box-row.unread, .unread.list-item {
     box-shadow: 2px 0 0 #4078c0 inset; }
-  .Box-row.navigation-focus .Box-row--drag-button {
+  .Box-row.navigation-focus .Box-row--drag-button, .navigation-focus.list-item .Box-row--drag-button {
     color: #4078c0;
     cursor: grab;
     opacity: 100; }
-  .Box-row.navigation-focus.is-dragging .Box-row--drag-button {
+  .Box-row.navigation-focus.is-dragging .Box-row--drag-button, .navigation-focus.is-dragging.list-item .Box-row--drag-button {
     cursor: grabbing; }
-  .Box-row.navigation-focus.sortable-chosen {
+  .Box-row.navigation-focus.sortable-chosen, .navigation-focus.sortable-chosen.list-item {
     background-color: #fafafa; }
-  .Box-row.navigation-focus.sortable-ghost {
+  .Box-row.navigation-focus.sortable-ghost, .navigation-focus.sortable-ghost.list-item {
     background-color: #f5f5f5; }
-    .Box-row.navigation-focus.sortable-ghost .Box-row--drag-hide {
+    .Box-row.navigation-focus.sortable-ghost .Box-row--drag-hide, .navigation-focus.sortable-ghost.list-item .Box-row--drag-hide {
       opacity: 0; }
 
-.Box-row--focus-gray.navigation-focus {
+.Box-row--focus-gray.navigation-focus, .navigation-focus.list-item {
   background-color: #f5f5f5; }
 
 .Box-row--focus-blue.navigation-focus {
@@ -3857,14 +3855,14 @@ pre {
     border-color: #c9e6f2; }
   .Box--blue .Box-body {
     border-color: #c9e6f2; }
-  .Box--blue .Box-row {
+  .Box--blue .Box-row, .Box--blue .list-item {
     border-color: #c9e6f2; }
   .Box--blue .Box-footer {
     border-color: #c9e6f2; }
 
 .Box--danger {
   border-color: #bd2c00; }
-  .Box--danger .Box-row:first-of-type {
+  .Box--danger .Box-row:first-of-type, .Box--danger .list-item:first-of-type {
     border-color: #bd2c00; }
   .Box--danger .Box-body:last-of-type {
     border-color: #bd2c00; }
@@ -4806,7 +4804,7 @@ p.explain {
 .col-1 {
   width: 8.33333%; }
 
-.col-2 {
+.col-2, .list-item-avatars {
   width: 16.66667%; }
 
 .col-3 {
@@ -4821,13 +4819,13 @@ p.explain {
 .col-6 {
   width: 50%; }
 
-.col-7 {
+.col-7, .list-item-avatars-inner {
   width: 58.33333%; }
 
 .col-8 {
   width: 66.66667%; }
 
-.col-9 {
+.col-9, .list-item-main {
   width: 75%; }
 
 .col-10 {
@@ -5834,20 +5832,20 @@ a.tabnav-extra:hover {
     margin: 0;
     text-align: right; }
 
-.markdown-body span.float-left {
+.markdown-body span.float-left, .markdown-body span.list-item-checkbox, .markdown-body span.list-item-main {
   display: block;
   float: left;
   margin-right: 13px;
   overflow: hidden; }
-  .markdown-body span.float-left span {
+  .markdown-body span.float-left span, .markdown-body span.list-item-checkbox span, .markdown-body span.list-item-main span {
     margin: 13px 0 0; }
 
-.markdown-body span.float-right {
+.markdown-body span.float-right, .markdown-body span.list-item-avatars, .markdown-body span.list-item-avatars-inner {
   display: block;
   float: right;
   margin-left: 13px;
   overflow: hidden; }
-  .markdown-body span.float-right > span {
+  .markdown-body span.float-right > span, .markdown-body span.list-item-avatars > span, .markdown-body span.list-item-avatars-inner > span {
     display: block;
     margin: 13px auto 0;
     overflow: hidden;
@@ -6340,13 +6338,8 @@ a.tabnav-extra:hover {
   .data-table tbody tr:last-child td {
     border-bottom: 1px #e5e5e5 solid; }
 
-.octicon {
-  display: inline-block;
-  vertical-align: text-top;
-  fill: currentColor; }
-
-tr.highlight {
-  background-color: red; }
+.flash:empty {
+  display: none !important; }
 
 .hidden {
   display: none !important; }
