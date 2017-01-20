@@ -25,13 +25,18 @@ defmodule Pullhub.Repository do
   @doc """
   Finds one repository based on remote_id. If none is found it is created and returned
   """
-  def find_or_create(repository) do
+  def find_or_create(%Pullhub.Repository{} = repository) do
     query = from r in Pullhub.Repository,
             where: r.remote_id == ^repository.remote_id and r.user_id == ^repository.user_id
     if !Repo.one(query)  do
-      Repo.insert(struct(Pullhub.Repository, repository))
+      Repo.insert(repository)
     end
     Repo.one(query)
+  end
+
+  def find_or_create(repository) do
+    struct(Pullhub.Repository, repository)
+    |> find_or_create
   end
 
   def sort(repositories) do
@@ -46,8 +51,22 @@ defmodule Pullhub.Repository do
   Finds repositories belonging to user with id = user_id
   """
   def user_repositories(user_id) do
+    user_repositories(Pullhub.Repository, user_id)
+  end
+
+  def user_repositories(query, user_id) do
     from( r in Pullhub.Repository,
           where: r.user_id == ^user_id
+        )
+  end
+
+  def without_ids(repo_ids) do
+    without_ids(Pullhub.Repository, repo_ids)
+  end
+
+  def without_ids(query, repo_ids) do
+    from( r in query,
+          where: not(r.id in ^repo_ids)
         )
   end
 
