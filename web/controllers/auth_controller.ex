@@ -30,8 +30,8 @@ defmodule Pullhub.AuthController do
     case UserFromAuth.find_or_create(auth) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "Successfully authenticated #{user.email} #{user.id}.")
         |> put_session(:current_user, user)
+        |> put_flash(:info, "Successfully authenticated.")
         |> redirect(to: "/")
       {:error, reason} ->
         conn
