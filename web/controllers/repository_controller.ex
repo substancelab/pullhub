@@ -10,7 +10,7 @@ defmodule Pullhub.RepositoryController do
   end
 
   def create(conn, %{"repositories" => %{"ids" => repository_ids}}) do
-    disable_all_user_repositories conn
+    disable_all_user_repositories conn, repository_ids
 
     case enable_user_repositories conn, repository_ids do
       {:ok, count} ->
@@ -25,7 +25,7 @@ defmodule Pullhub.RepositoryController do
   end
 
   def user_id(conn) do
-    conn.assigns[:user].id
+    conn.assigns[:current_user].id
   end
 
   def user_repos(conn) do
@@ -35,10 +35,11 @@ defmodule Pullhub.RepositoryController do
     |> Repository.sort
   end
 
-  defp disable_all_user_repositories(conn) do
+  defp disable_all_user_repositories(conn, repository_ids_to_enable) do
     user_id(conn)
     |> Repository.user_repositories
     |> Repository.enabled_repositories
+    |> Repository.without_ids(repository_ids_to_enable)
     |> Repo.update_all(set: [enabled: false])
   end
 
