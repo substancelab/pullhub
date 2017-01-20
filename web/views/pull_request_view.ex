@@ -9,4 +9,10 @@ defmodule Pullhub.PullRequestView do
       "highlight"
     end
   end
+
+  def hide_class_if_empty(repository) do
+    if Enum.count(repository.pull_requests) == 0 do
+      "hidden"
+    end
+  end
 end

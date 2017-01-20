@@ -17,52 +17,55 @@
   </head>
 
   <body>
-    <nav class="navbar-inverse">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">PullHub</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <%= if @current_user do %>
-              <li>
-                <%= link "Pull requests", to: pull_request_path(@conn, :index) %>
-              </li>
-              <li>
-                <%= link "Repositories", to: repository_path(@conn, :index) %>
-              </li>
-            <% end %>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <%= if @current_user do %>
-              <li>
-                <%= link "Log out", to: auth_path(@conn, :delete), method: :delete %>
-              </li>
-            <%= else %>
-              <li>
-                <%= link "Login", to: auth_path(@conn, :request, :github) %>
-              </li>
-            <% end %>
-          </ul>
-        </div><!--/.nav-collapse -->
+
+  <div class="container">
+    <div class="columns">
+      <div class="one-fifth column">
+        <h1>Pullhub</h1>
       </div>
-    </nav>
+    </div>
+    <div class="columns">
+      <div class="one-fifth column">
+        <%= if @current_user do %>
+          <nav class="menu">
+            <%=
+              active_link(@conn, "Pull requests", to: pull_request_path(@conn, :index), class: "menu-item")
+            %>
 
-    <div class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+            <%=
+              active_link(@conn, "Repositories", to: repository_path(@conn, :index), class: "menu-item")
+            %>
+          </nav>
+        <% end %>
 
-      <main role="main">
+        <nav class="menu">
+          <%= if @current_user do %>
+            <li>
+              <%= link "Log out", to: auth_path(@conn, :delete), method: :delete, class: "menu-item" %>
+            </li>
+          <%= else %>
+            <li>
+              <%= link "Login", to: auth_path(@conn, :request, :github), class: "menu-item" %>
+            </li>
+          <% end %>
+        </nav>
+      </div>
+      <div class="four-fifths column">
+        <%= if get_flash(@conn, :info) do %>
+          <p class="flash flash-info" role="flash">
+            <%= get_flash(@conn, :info) %>
+          </p>
+        <% end %>
+        <%= if get_flash(@conn, :error) do %>
+          <p class="flash flash-error" role="flash">
+            <%= get_flash(@conn, :error) %>
+          </p>
+        <% end %>
+
         <%= render @view_module, @view_template, assigns %>
-      </main>
-
-    </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+      </div>
+    </div>
+  </div>
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

@@ -27,8 +27,13 @@ defmodule Pullhub.GithubApi do
     Enum.map(pull["assignees"], fn(user) -> user["login"] end)
   end
 
+  defp assigness_avatars_from_pull(pull) do
+    Enum.map(pull["assignees"], fn(user) -> user["avatar_url"] end)
+  end
+
   defp extract_pull_info(pull) do
     %PullRequest{
+      assignees_avatars: assigness_avatars_from_pull(pull),
       assignees_logins: assigness_from_pull(pull),
       body: pull["body"],
       issue_url: pull["issue_url"],

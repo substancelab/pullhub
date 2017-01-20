@@ -1,6 +1,5 @@
 <h2>Listing repositories</h2>
-
-<p id="repository-fetch-info">Fetching latest data from Github</p>
+<p id="repository-fetch-info" class="flash flash-info">Fetching latest data from Github</p>
 
 <%= form_for @conn, repository_path(@conn, :create), [as: :repository], fn f -> %>
 

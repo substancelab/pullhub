@@ -1,8 +1,12 @@
 /* This file is for your main application css. */
 $icon-font-path: "/fonts/"; /* use fonts from priv/static/fonts/ */
-@import "bootstrap"; /* imports node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss */
-
+@import "primer-css/index.scss";
+@import "./octicons";
 
 tr.highlight {
-  background-color: #e2e2e2;
+  background-color: red;
+}
+
+.hidden {
+  display: none !important;
 }

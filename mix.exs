@@ -44,7 +44,8 @@ defmodule Pullhub.Mixfile do
      {:oauth, github: "tim/erlang-oauth"},
      {:ueberauth_github, github: "ueberauth/ueberauth_github"},
      {:tentacat, "~> 0.5"},
-     {:honeybadger, "~> 0.1"}]
+     {:honeybadger, "~> 0.1"},
+     {:phoenix_active_link, "~> 0.0.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

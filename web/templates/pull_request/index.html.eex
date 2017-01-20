@@ -1,19 +1,37 @@
 
-<p id="pullrequest-fetch-info">Fetching latest data from Github</p>
+<p id="pullrequest-fetch-info" class="flash flash-info">Fetching latest data from Github</p>
 
-<%= for repository <- @repositories do %>
-  <h3><%= repository.owner %> / <%= repository.name %></h3>
-  <table class="table" id="repository-pull-requests-<%= repository.id %>">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th width="150">Assignees</th>
-      </tr>
-    </thead>
-    <tbody>
-    <%= for pull_request <- repository.pull_requests do %>
-      <%= render Pullhub.PullRequestView, "pull_request.html", conn: @conn, repository: repository, pull_request: pull_request %>
-    <% end %>
-    </tbody>
-  </table>
+<%= if !List.first(@repositories) do %>
+  <div class="blankslate">
+    <h3>You haven't enabled any repositories yet.</h3>
+    <p>
+      To make this tool useful go to the
+      <%= link "repositories management page", to: repository_path(@conn, :index) %>
+      to enable som repositories
+    </p>
+  </div>
+<% end %>
+
+<%= if List.first(@repositories) do %>
+  <%= for repository <- @repositories do %>
+    <div class="pull-requests-container <%= hide_class_if_empty(repository) %>">
+      <div class="d-table table-fixed width-full Box-row--drag-hide">
+        <div class="float-left col-9 p-2 lh-condensed">
+          <h4>
+            <%= repository.name %>
+            <span class="mt-1 text-small text-gray">
+                <%= repository.owner %>
+            </span>
+          </h4>
+        </div>
+      </div>
+      <div class="border-right border-bottom border-left border-top">
+        <ul class="" id="repository-pull-requests-<%= repository.id %>">
+          <%= for pull_request <- repository.pull_requests do %>
+            <%= render Pullhub.PullRequestView, "pull_request.html", conn: @conn, repository: repository, pull_request: pull_request %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
 <% end %>

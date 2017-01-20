@@ -7,6 +7,7 @@ defmodule Pullhub.PullRequest do
     field :remote_id, :integer
     field :author_login, :string
     field :assignees_logins, {:array, :string}
+    field :assignees_avatars, {:array, :string}
     field :state, :string
     field :issue_url, :string
     field :url, :string
@@ -21,7 +22,7 @@ defmodule Pullhub.PullRequest do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :body, :assignees_logins, :author_login, :remote_id, :state, :issue_url, :url, :repository_id])
+    |> cast(params, [:title, :body, :assignees_logins, :assignees_avatars, :author_login, :remote_id, :state, :issue_url, :url, :repository_id])
     |> validate_required([:title, :body, :remote_id, :state, :issue_url, :url])
   end
 
