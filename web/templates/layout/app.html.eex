@@ -18,7 +18,7 @@
 
   <body>
 
-  <div class="container">
+  <div class="container py-5">
     <div class="columns">
       <div class="one-fifth column">
         <h1>Pullhub</h1>

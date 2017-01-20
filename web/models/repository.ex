@@ -39,12 +39,15 @@ defmodule Pullhub.Repository do
     |> find_or_create
   end
 
-  def sort(repositories) do
-    Enum.sort(
-      repositories, &(
-        &1.enabled > &2.enabled
-      )
+  def sort(query) do
+    from( r in query,
+      order_by: [desc: :enabled, asc: :name]
     )
+  end
+
+  def sorted_user_repositories(user_id) do
+    user_repositories(Pullhub.Repository, user_id)
+    |> sort
   end
 
   @doc """
@@ -92,5 +95,21 @@ defmodule Pullhub.Repository do
   """
   def find_by_ids(repository_ids) do
     from(r in Pullhub.Repository, where: r.id in ^repository_ids)
+  end
+
+  def disable_all_user_repositories(user_id, repository_ids_to_enable) do
+    user_id
+    |> user_repositories
+    |> enabled_repositories
+    |> without_ids(repository_ids_to_enable)
+    |> Repo.update_all(set: [enabled: false])
+  end
+
+  def enable_user_repositories(user_id, repository_ids) do
+    repository_ids
+    |> find_by_ids
+    |> Repo.update_all(set: [enabled: true])
+
+    {:ok, Repo.aggregate(find_by_ids(repository_ids), :count, :id)}
   end
 end

@@ -36,9 +36,16 @@ defmodule Pullhub.RepositoryTest do
   end
 
   test "sort sorts the repositories" do
-    repo = %{remote_id: 10, name: "aaaalong", owner: "1", enabled: false}
-    enabled_repo = %{remote_id: 11, name: "ZZZZebra", owner: "1", enabled: true}
-    assert hd(Repository.sort([repo, enabled_repo])) == enabled_repo
+    user = Pullhub.User.find_or_create(%{email: "jd@testemail.com"})
+    repo = %{remote_id: 10, name: "aaaalong", owner: "1", enabled: false, user_id: user.id}
+    enabled_repo = %{remote_id: 11, name: "ZZZZebra", owner: "1", enabled: true, user_id: user.id}
+
+    Repository.find_or_create(repo)
+    enabled_repo = Repository.find_or_create(enabled_repo)
+
+    sorted = Repository.user_repositories(user.id)
+            |> Repository.sort
+    assert hd(Repo.all(sorted)) == enabled_repo
   end
 
   test "finds repositories with out certain ids" do

@@ -2,6 +2,7 @@ defmodule Pullhub.RepositoryControllerTest do
   use Pullhub.ConnCase
 
   alias Pullhub.User
+  alias Pullhub.Repository
   @valid_attrs %{name: "some content", remote_id: 42}
   @invalid_attrs %{}
 
@@ -20,8 +21,11 @@ defmodule Pullhub.RepositoryControllerTest do
   end
 
   test "lists all entries on index", %{user: user} do
+    new_repo = %{remote_id: 11, name: "awesome repo", owner: "1", user_id: user.id}
+              |> Repository.find_or_create
+
     conn = session_conn(user)
     conn = get conn, repository_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing repositories"
+    assert html_response(conn, 200) =~ new_repo.name
   end
 end
