@@ -1,0 +1,33 @@
+.pull-request-repository {
+  @extend .mb-5;
+
+  &.hidden {
+    display: none !important;
+  }
+}
+
+.pull-request-repository-header {
+  @extend .d-table;
+  @extend .table-fixed;
+  @extend .width-full;
+}
+
+.pull-request-repository-header-inner {
+  @extend .float-left;
+  @extend .col-9;
+  @extend .p2 !optional;
+  @extend .lh-condensed;
+}
+
+.pull-request-repository-header-owner {
+  @extend .mt-1;
+  @extend .text-small;
+  @extend .text-gray;
+}
+
+.pull-requests-container {
+  @extend .border-right;
+  @extend .border-bottom;
+  @extend .border-left;
+  @extend .border-top;
+}
