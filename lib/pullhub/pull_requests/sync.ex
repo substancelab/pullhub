@@ -21,11 +21,7 @@ defmodule Pullhub.PullRequests.Sync do
   end
 
   defp enabled_user_repositories(%User{} = user) do
-    user.id
-    |> Repositories.user_repositories
-    |> Repositories.enabled_repositories
-    |> Repositories.preload_user
-    |> Repo.all
+    user.id |> Repositories.user_repos
   end
 
   defp update_stored_data({:error, message}, _) do
