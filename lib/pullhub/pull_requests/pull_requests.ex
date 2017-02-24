@@ -1,9 +1,10 @@
-defmodule Pullhub.StoredPullRequests do
-  import Ecto.Query
+defmodule Pullhub.PullRequests do
 
+  alias Pullhub.Repository
   alias Pullhub.PullRequest
   alias Pullhub.Repo
-  alias Pullhub.Repository
+  import Ecto
+  import Ecto.Query
 
   def insert_pull_requests(pull_requests, %Repository{id: repo_id}) do
     pull_requests
@@ -27,5 +28,9 @@ defmodule Pullhub.StoredPullRequests do
 
   defp add_repository_id_to_pull_request(%PullRequest{} = pull, repo_id) do
     %{ pull | repository_id: repo_id }
+  end
+
+  def open_pull_requests do
+    from(p in Pullhub.PullRequest, where: p.state == "open")
   end
 end

@@ -2,7 +2,7 @@ defmodule Pullhub.RepoFetcher do
   use GenServer
 
   alias Pullhub.GithubApi
-  alias Pullhub.Repository
+  alias Pullhub.Repositories
 
   def fetch(fetch_params) do
     GenServer.cast(:repo_fetcher, {:fetch_user_github_repositories, fetch_params})
@@ -24,8 +24,8 @@ defmodule Pullhub.RepoFetcher do
   defp fetch_and_update_repositories(user) do
     user
     |> GithubApi.repositories
-    |> Enum.map(&Repository.find_or_create/1)
-    |> Repository.sort
+    |> Enum.map(&Repositories.find_or_create/1)
+    |> Repositories.sort
     |> Enum.map(&render_repository/1)
     |> broadcastChannelInfo(user)
   end

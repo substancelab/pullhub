@@ -1,14 +1,9 @@
-defmodule UserFromAuth do
-  require Logger
-  @moduledoc """
-  Retrieve the user information from an auth request
-  """
-
+defmodule Pullhub.Accounts.OAuth do
   alias Pullhub.User
+  alias Pullhub.Accounts
   alias Ueberauth.Auth
 
   def find_or_create(%Auth{provider: :identity} = auth) do
-    Logger.debug "auth.credentials: #{auth.credentials}"
     case validate_pass(auth.credentials) do
       :ok ->
         {:ok, basic_info(auth)}
@@ -17,11 +12,8 @@ defmodule UserFromAuth do
   end
 
   def find_or_create(%Auth{} = auth) do
-    Logger.debug "auth: #{auth.credentials.token}"
-    Logger.debug "auth: #{auth.info.email}"
-
     %User{email: auth.info.email, github_token: auth.credentials.token, uid: auth.uid  }
-    |> User.find_or_create
+    |> Accounts.find_or_create
     |> return_ok
   end
 

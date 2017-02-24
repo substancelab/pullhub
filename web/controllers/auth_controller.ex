@@ -3,6 +3,7 @@ defmodule Pullhub.AuthController do
   use Pullhub.Web, :controller
   plug Ueberauth
 
+  alias Pullhub.Accounts
   alias Ueberauth.Strategy.Helpers
 
   def index(conn, _params) do
@@ -27,7 +28,7 @@ defmodule Pullhub.AuthController do
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
-    case UserFromAuth.find_or_create(auth) do
+    case Accounts.OAuth.find_or_create(auth) do
       {:ok, user} ->
         conn
         |> put_session(:current_user, user)

@@ -1,8 +1,8 @@
-defmodule Pullhub.PullRequestsSync do
+defmodule Pullhub.PullRequests.Sync do
   alias Pullhub.GithubApi
   alias Pullhub.Repo
-  alias Pullhub.Repository
-  alias Pullhub.StoredPullRequests
+  alias Pullhub.Repositories
+  alias Pullhub.PullRequests
   alias Pullhub.User
 
   def sync(%User{} = user) do
@@ -22,9 +22,9 @@ defmodule Pullhub.PullRequestsSync do
 
   defp enabled_user_repositories(%User{} = user) do
     user.id
-    |> Repository.user_repositories
-    |> Repository.enabled_repositories
-    |> Repository.preload_user
+    |> Repositories.user_repositories
+    |> Repositories.enabled_repositories
+    |> Repositories.preload_user
     |> Repo.all
   end
 
@@ -32,7 +32,7 @@ defmodule Pullhub.PullRequestsSync do
   end
 
   defp update_stored_data(pull_requests, repo) do
-    StoredPullRequests.remove_pull_requests(repo)
-    StoredPullRequests.insert_pull_requests(pull_requests, repo)
+    PullRequests.remove_pull_requests(repo)
+    PullRequests.insert_pull_requests(pull_requests, repo)
   end
 end
