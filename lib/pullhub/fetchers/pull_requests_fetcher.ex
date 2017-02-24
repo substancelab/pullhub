@@ -3,7 +3,7 @@ defmodule Pullhub.PullRequestsFetcher do
 
   alias Pullhub.User
   alias Pullhub.PullRequestsBroadcaster
-  alias Pullhub.PullRequestsSync
+  alias Pullhub.PullRequests
 
   def fetch(fetch_params) do
     GenServer.cast(:pull_requests_fetcher,
@@ -12,7 +12,7 @@ defmodule Pullhub.PullRequestsFetcher do
 
   def fetch_and_update_pull_requests(%User{} = user) do
     user
-    |> PullRequestsSync.sync
+    |> PullRequests.Sync.sync
     |> PullRequestsBroadcaster.broadcast(user)
   end
 

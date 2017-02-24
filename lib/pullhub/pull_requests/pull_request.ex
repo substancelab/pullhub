@@ -25,8 +25,4 @@ defmodule Pullhub.PullRequest do
     |> cast(params, [:title, :body, :assignees_logins, :assignees_avatars, :author_login, :remote_id, :state, :issue_url, :url, :repository_id])
     |> validate_required([:title, :body, :remote_id, :state, :issue_url, :url])
   end
-
-  def open_pull_requests do
-    from(p in Pullhub.PullRequest, where: p.state == "open")
-  end
 end

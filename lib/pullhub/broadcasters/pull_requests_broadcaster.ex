@@ -1,7 +1,7 @@
 defmodule Pullhub.PullRequestsBroadcaster do
   alias Pullhub.Repo
   alias Pullhub.Repository
-  alias Pullhub.StoredPullRequests
+  alias Pullhub.PullRequests
   alias Pullhub.User
 
   def broadcast(repositories, %User{} = user) do
@@ -27,7 +27,7 @@ defmodule Pullhub.PullRequestsBroadcaster do
 
   defp prepare_for_broadcasting(repositories) do
     Enum.map(repositories, fn(repo) ->
-      StoredPullRequests.pull_requests(repo)
+      PullRequests.pull_requests(repo)
       |> Repo.all
       |> map_to_structure(repo)
     end)

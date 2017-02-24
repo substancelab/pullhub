@@ -30,10 +30,6 @@ defmodule Pullhub.Web do
     quote do
       use Phoenix.Controller
 
-      alias Pullhub.Repo
-      import Ecto
-      import Ecto.Query
-
       import Pullhub.Router.Helpers
       import Pullhub.Gettext
     end
@@ -66,9 +62,6 @@ defmodule Pullhub.Web do
     quote do
       use Phoenix.Channel
 
-      alias Pullhub.Repo
-      import Ecto
-      import Ecto.Query
       import Pullhub.Gettext
     end
   end

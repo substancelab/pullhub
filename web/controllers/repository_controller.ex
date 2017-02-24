@@ -2,7 +2,7 @@ defmodule Pullhub.RepositoryController do
   require Logger
   use Pullhub.Web, :controller
 
-  alias Pullhub.Repository
+  alias Pullhub.Repositories
   alias Pullhub.RepositoriesService
 
   def index(conn, _params) do
@@ -31,17 +31,17 @@ defmodule Pullhub.RepositoryController do
   end
 
   def user_repos(conn) do
-    Repository.sorted_user_repositories(user_id(conn))
-    |> Repo.all
+    Repositories.sorted_user_repositories(user_id(conn))
+    |> Repositories.all
   end
 
   defp disable_all_user_repositories(conn, repository_ids_to_enable) do
     user_id(conn)
-    |> Repository.disable_all_user_repositories(repository_ids_to_enable)
+    |> Repositories.disable_all_user_repositories(repository_ids_to_enable)
   end
 
   defp enable_user_repositories(conn, repository_ids) do
     user_id(conn)
-    |> Repository.enable_user_repositories(repository_ids)
+    |> Repositories.enable_user_repositories(repository_ids)
   end
 end

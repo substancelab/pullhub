@@ -17,7 +17,7 @@ defmodule Pullhub.PullRequestChannel do
   def handle_in("update_pull_requests", %{}, socket) do
     %{id: user_id} = socket.assigns[:user]
 
-    %{user: Pullhub.Repo.get!(Pullhub.User, user_id)}
+    %{user: Pullhub.Accounts.find_by_id!(user_id)}
     |> Pullhub.PullRequestsFetcher.fetch
 
     {:noreply, socket}

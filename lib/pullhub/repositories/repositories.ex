@@ -1,32 +1,15 @@
-defmodule Pullhub.Repository do
-  use Pullhub.Web, :model
+defmodule Pullhub.Repositories do
 
+  alias Pullhub.Repository
   alias Pullhub.Repo
-
-  schema "repositories" do
-    field :name, :string
-    field :owner, :string
-    field :remote_id, :integer
-    field :enabled, :boolean
-    belongs_to :user, Pullhub.User
-    has_many :pull_requests, Pullhub.PullRequest
-    timestamps()
-  end
-
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [:name, :owner, :remote_id, :enabled])
-    |> validate_required([:remote_id])
-  end
+  import Ecto
+  import Ecto.Query
 
   @doc """
   Finds one repository based on remote_id. If none is found it is created and returned
   """
-  def find_or_create(%Pullhub.Repository{} = repository) do
-    query = from r in Pullhub.Repository,
+  def find_or_create(%Repository{} = repository) do
+    query = from r in Repository,
             where: r.remote_id == ^repository.remote_id and r.user_id == ^repository.user_id
     if !Repo.one(query)  do
       Repo.insert(repository)
@@ -35,7 +18,7 @@ defmodule Pullhub.Repository do
   end
 
   def find_or_create(repository) do
-    struct(Pullhub.Repository, repository)
+    struct(Repository, repository)
     |> find_or_create
   end
 
@@ -46,25 +29,29 @@ defmodule Pullhub.Repository do
   end
 
   def sorted_user_repositories(user_id) do
-    user_repositories(Pullhub.Repository, user_id)
+    user_repositories(Repository, user_id)
     |> sort
+  end
+
+  def all(query) do
+    query |> Repo.all
   end
 
   @doc """
   Finds repositories belonging to user with id = user_id
   """
   def user_repositories(user_id) do
-    user_repositories(Pullhub.Repository, user_id)
+    user_repositories(Repository, user_id)
   end
 
   def user_repositories(query, user_id) do
-    from( r in Pullhub.Repository,
+    from( r in Repository,
           where: r.user_id == ^user_id
         )
   end
 
   def without_ids(repo_ids) do
-    without_ids(Pullhub.Repository, repo_ids)
+    without_ids(Repository, repo_ids)
   end
 
   def without_ids(query, repo_ids) do
@@ -81,6 +68,29 @@ defmodule Pullhub.Repository do
     )
   end
 
+  def user_repos(user_id) do
+    user_id
+    |> Repositories.user_repositories
+    |> Repositories.enabled_repositories
+    |> preload_pull_requests
+    |> preload_users
+    |> Repo.all
+  end
+
+  def preload_pull_requests(query) do
+    from r in query,
+        preload: [
+          pull_requests: ^Pullhub.PullRequests.open_pull_requests,
+        ]
+  end
+
+  def preload_users(query) do
+    from r in query,
+        preload: [
+          user: :repositories
+        ]
+  end
+
   @doc """
   Finds repositories marked as enabled
   """
@@ -94,7 +104,7 @@ defmodule Pullhub.Repository do
   Finds repositories by a list of ids
   """
   def find_by_ids(repository_ids) do
-    from(r in Pullhub.Repository, where: r.id in ^repository_ids)
+    from(r in Repository, where: r.id in ^repository_ids)
   end
 
   def disable_all_user_repositories(user_id, repository_ids_to_enable) do
