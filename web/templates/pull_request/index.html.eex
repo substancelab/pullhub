@@ -14,18 +14,18 @@
 
 <%= if List.first(@repositories) do %>
   <%= for repository <- @repositories do %>
-    <div class="pull-requests-container <%= hide_class_if_empty(repository) %>">
-      <div class="d-table table-fixed width-full Box-row--drag-hide">
-        <div class="float-left col-9 p-2 lh-condensed">
+    <div class="pull-request-repository <%= hide_class_if_empty(repository) %>">
+      <div class="pull-request-repository-header">
+        <div class="pull-request-repository-header-inner">
           <h4>
             <%= repository.name %>
-            <span class="mt-1 text-small text-gray">
+            <span class="pull-request-repository-header-owner">
                 <%= repository.owner %>
             </span>
           </h4>
         </div>
       </div>
-      <div class="border-right border-bottom border-left border-top">
+      <div class="pull-requests-container">
         <ul class="" id="repository-pull-requests-<%= repository.id %>">
           <%= for pull_request <- repository.pull_requests do %>
             <%= render Pullhub.PullRequestView, "pull_request.html", conn: @conn, repository: repository, pull_request: pull_request %>

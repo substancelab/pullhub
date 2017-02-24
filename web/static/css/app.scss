@@ -1,10 +1,7 @@
 @import "primer-css/index.scss";
 @import "./list";
+@import "./pull_requests";
 
 .flash:empty {
-  display: none !important;
-}
-
-.hidden {
   display: none !important;
 }
