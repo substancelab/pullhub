@@ -16,7 +16,7 @@ defmodule Pullhub.Repositories.Queries do
   end
 
   def preload_pull_requests(query) do
-    query |> preload( pull_requests: ^PullRequests.open_pull_requests)
+    query |> preload( pull_requests: ^PullRequests.Queries.open_pull_requests)
   end
 
   def preload_users(query), do: query |> preload(user: :repositories)
