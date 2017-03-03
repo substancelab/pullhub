@@ -28,7 +28,6 @@ defmodule Pullhub.PullRequestsBroadcaster do
   defp prepare_for_broadcasting(repositories) do
     Enum.map(repositories, fn(repo) ->
       PullRequests.pull_requests(repo)
-      |> Repo.all
       |> map_to_structure(repo)
     end)
   end

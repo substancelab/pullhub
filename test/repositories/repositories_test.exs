@@ -32,8 +32,8 @@ defmodule Pullhub.RepositoriesTest do
     Repositories.find_or_create(repo)
     enabled_repo = Repositories.find_or_create(enabled_repo)
 
-    sorted = Repositories.user_repositories(user.id)
-            |> Repositories.sort
+    sorted = Repositories.Queries.user_repositories(user.id)
+            |> Repositories.Queries.sort
     assert hd(Repo.all(sorted)) == enabled_repo
   end
 
@@ -50,7 +50,74 @@ defmodule Pullhub.RepositoriesTest do
     |> Repositories.find_or_create
 
 
-    query = Repositories.without_ids([first_repo.id, second_repo.id])
+    query = Repositories.Queries.without_ids([first_repo.id, second_repo.id])
     assert Pullhub.Repo.all(query) == [third_repo]
+  end
+
+  test "finds repositories owned by a specific user" do
+    user = Pullhub.Accounts.find_or_create(%User{email: "jd@testemail.com"})
+    other_user = Pullhub.Accounts.find_or_create(%User{email: "jd@terestemail.com"})
+
+    first_repo = %{remote_id: 11, name: "a", owner: "1", user_id: user.id}
+    |> Repositories.find_or_create
+
+    second_repo = %{remote_id: 12, name: "b", owner: "1", user_id: user.id}
+    |> Repositories.find_or_create
+
+    third_repo = %{remote_id: 13, name: "c", owner: "1", user_id: user.id}
+    |> Repositories.find_or_create
+
+    %{remote_id: 13, name: "t", owner: "1", user_id: other_user.id}
+    |> Repositories.find_or_create
+
+    sorted_user_repositories = Repositories.sorted_user_repositories(user.id)
+    assert sorted_user_repositories == [first_repo, second_repo, third_repo]
+  end
+
+  test "can enable repositories owned by a specific user" do
+    user = Pullhub.Accounts.find_or_create(%User{email: "jd@testemail.com"})
+    other_user = Pullhub.Accounts.find_or_create(%User{email: "jd@terestemail.com"})
+
+    first_repo = %{remote_id: 11, name: "a", enabled: false, owner: "1", user_id: user.id}
+    |> Repositories.find_or_create
+
+    %{remote_id: 12, name: "b", owner: "1", user_id: user.id}
+    |> Repositories.find_or_create
+
+    other_repo = %{remote_id: 13, name: "t", owner: "1", user_id: other_user.id}
+    |> Repositories.find_or_create
+
+    Repositories.enable_user_repositories(user.id, [first_repo.id, other_repo.id])
+
+    updated_repo = Repositories.find_by_id(first_repo.id)
+    assert updated_repo.enabled == true
+
+    updated_other_repo = Repositories.find_by_id(other_repo.id)
+    assert updated_other_repo.enabled != true
+  end
+
+  test "can disable repositories owned by a specific user" do
+    user = Pullhub.Accounts.find_or_create(%User{email: "jd@testemail.com"})
+    other_user = Pullhub.Accounts.find_or_create(%User{email: "jd@terestemail.com"})
+
+    first_repo = %{remote_id: 11, name: "a", enabled: true, owner: "1", user_id: user.id}
+    |> Repositories.find_or_create
+
+    second_repo = %{remote_id: 12, name: "b", owner: "1", enabled: true, user_id: user.id}
+    |> Repositories.find_or_create
+
+    other_repo = %{remote_id: 13, name: "t", owner: "1", enabled: true, user_id: other_user.id}
+    |> Repositories.find_or_create
+
+    Repositories.disable_all_user_repositories(user.id, [second_repo.id])
+
+    updated_repo = Repositories.find_by_id(first_repo.id)
+    assert updated_repo.enabled == false
+
+    updated_second_repo = Repositories.find_by_id(second_repo.id)
+    assert updated_second_repo.enabled == true
+
+    updated_other_repo = Repositories.find_by_id(other_repo.id)
+    assert updated_other_repo.enabled == true
   end
 end

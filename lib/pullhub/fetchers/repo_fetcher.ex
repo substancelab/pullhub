@@ -8,7 +8,7 @@ defmodule Pullhub.RepoFetcher do
     GenServer.cast(:repo_fetcher, {:fetch_user_github_repositories, fetch_params})
   end
 
-  def handle_cast({:fetch_user_github_repositories, fetch_params}, state) do
+  def handle_cast({:fetch_user_github_repositories, fetch_params}, _state) do
     %{user: user} = fetch_params
     {:noreply, fetch_and_update_repositories(user)}
   end
@@ -18,14 +18,14 @@ defmodule Pullhub.RepoFetcher do
   end
 
   def start_link(opts \\ []) do
-    {:ok, pid} = GenServer.start_link(__MODULE__, [], opts)
+    {:ok, _pid} = GenServer.start_link(__MODULE__, [], opts)
   end
 
   defp fetch_and_update_repositories(user) do
     user
     |> GithubApi.repositories
     |> Enum.map(&Repositories.find_or_create/1)
-    |> Repositories.sort
+    |> Repositories.Queries.sort
     |> Enum.map(&render_repository/1)
     |> broadcastChannelInfo(user)
   end
