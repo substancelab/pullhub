@@ -2,7 +2,6 @@ defmodule Pullhub.PullRequestsTest do
   use Pullhub.ModelCase
 
   alias Pullhub.User
-  alias Pullhub.Repository
   alias Pullhub.Repositories
   alias Pullhub.PullRequests
   alias Pullhub.PullRequest

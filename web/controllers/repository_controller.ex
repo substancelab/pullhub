@@ -3,7 +3,6 @@ defmodule Pullhub.RepositoryController do
   use Pullhub.Web, :controller
 
   alias Pullhub.Repositories
-  alias Pullhub.RepositoriesService
 
   def index(conn, _params) do
     conn
@@ -15,22 +14,22 @@ defmodule Pullhub.RepositoryController do
     disable_all_user_repositories conn, repository_ids
 
     case enable_user_repositories conn, repository_ids do
-      {:ok, count} ->
+      {:ok, _count} ->
         conn
         |> put_flash(:info, "Repositories saved.")
         |> render("index.html", repositories: user_repos(conn))
-      {:error, changeset} ->
+      {:error, _changeset} ->
         conn
         |> put_flash(:error, "Repositories ERROR saving.")
         |> render("index.html", repositories: user_repos(conn))
     end
   end
 
-  def user_id(conn) do
+  defp user_id(conn) do
     conn.assigns[:current_user].id
   end
 
-  def user_repos(conn) do
+  defp user_repos(conn) do
     Repositories.sorted_user_repositories(user_id(conn))
   end
 

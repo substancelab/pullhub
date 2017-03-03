@@ -3,7 +3,6 @@ defmodule Pullhub.Repositories do
   import Pullhub.Repositories.Queries
 
   alias Pullhub.Repo
-  alias Pullhub.Repositories
   alias Pullhub.Repository
 
   @doc """

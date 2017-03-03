@@ -1,4 +1,4 @@
-<%= form_for @conn, repository_path(@conn, :create), [as: :repository], fn f -> %>
+<%= form_for @conn, repository_path(@conn, :create), [as: :repository], fn _f -> %>
 
   <div class="form-actions py-3">
     <%= submit "Save", class: "btn btn-primary" %>
